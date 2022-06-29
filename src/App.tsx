@@ -1,58 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import Layout from './router/Layout'
+import CreateEmployee from './router/pages/employees/CreateEmployee'
+import EditEmployee from './router/pages/employees/EditEmployee'
+import EmployeeProfile from './router/pages/employees/EmployeeProfile'
+import Employees from './router/pages/employees/Employees'
+import Home from './router/pages/Home'
+import Signin from './router/pages/Signin'
+import AuthProvider from './store/features/auth/components/AuthProvider'
+import RedirectAuth from './store/features/auth/components/RedirectAuth'
+import RequireAuth from './store/features/auth/components/RequireAuth'
+import EmployeesProvider from './store/features/employees/components/EmployeesProvider'
 
-function App() {
+const App: React.FC = () => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={
+          <RequireAuth>
+            <Layout />
+          </RequireAuth>
+        }>
+          <Route index element={<Home />} />
+          <Route path="employees">
+            <Route index element={
+              <EmployeesProvider>
+                <Employees />
+              </EmployeesProvider>
+            } />
+            <Route path="create" element={<CreateEmployee />} />
+            <Route path="edit/:id" element={<EditEmployee />} />
+            <Route path=":id" element={<EmployeeProfile />} />
+          </Route>
+        </Route>
+        <Route path="signin" element={
+          <RedirectAuth>
+            <Signin />
+          </RedirectAuth>
+        }
+        />
+      </Routes>
+    </AuthProvider>
+  )
 }
 
-export default App;
+export default App
