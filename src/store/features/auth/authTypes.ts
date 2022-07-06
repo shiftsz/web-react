@@ -16,6 +16,7 @@ namespace AuthTypes {
 
     export type User = {
         id: string
+        username: string
         forename: string
         surname: string
         role: Role

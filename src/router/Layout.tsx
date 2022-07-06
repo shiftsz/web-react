@@ -1,10 +1,17 @@
-import { HomeRounded } from '@mui/icons-material'
+import { HomeRounded, LogoutRounded } from '@mui/icons-material'
 import { AppBar, IconButton, Toolbar } from '@mui/material'
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
+import { fetchSignoutAsync } from '../store/features/auth/authActions'
+import { useDispatch } from '../store/storeHooks'
 
 const Layout: React.FC = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const handleSignout = () => {
+        dispatch(fetchSignoutAsync())
+    }
 
     return (
         <>
@@ -19,6 +26,12 @@ const Layout: React.FC = () => {
                         onClick={() => navigate('/')}
                     >
                         <HomeRounded />
+                    </IconButton>
+                    <IconButton
+                        onClick={handleSignout}
+                        edge="end"
+                    >
+                        <LogoutRounded />
                     </IconButton>
                 </Toolbar>
             </AppBar>
