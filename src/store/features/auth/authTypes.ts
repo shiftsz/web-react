@@ -1,13 +1,7 @@
 import { SerializedError } from "@reduxjs/toolkit"
+import RootTypes from "../../rootTypes"
 
 namespace AuthTypes {
-    export enum Status {
-        IDLE = 'idle',
-        PENDING = 'pending',
-        FULFILLED = 'fulfilled',
-        REJECTED = 'rejected'
-    }
-
     export type Role = {
         level: number
         value: string
@@ -27,26 +21,11 @@ namespace AuthTypes {
         token: string
     }
 
-    export type IdleState = {
-        status: Status.IDLE
-    }
+    export type FulFilledState = RootTypes.FulFilledState<Payload>
 
-    export type PendingState = {
-        status: Status.PENDING
-    }
+    export type RejectedState = RootTypes.RejectedState<SerializedError>
 
-    export type FulFilledState = {
-        status: Status.FULFILLED,
-        payload: Payload
-    }
-
-    export type RejectedState = {
-        status: Status.REJECTED,
-        reason: string
-        error: SerializedError
-    }
-
-    export type State = IdleState | PendingState | FulFilledState | RejectedState
+    export type State = RootTypes.State<AuthTypes.RejectedState, AuthTypes.FulFilledState>
 }
 
 export default AuthTypes

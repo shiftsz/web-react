@@ -2,7 +2,7 @@ import { HomeRounded, LogoutRounded } from '@mui/icons-material'
 import { AppBar, IconButton, Toolbar } from '@mui/material'
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { fetchSignoutAsync } from '../store/features/auth/authActions'
+import fetchSignoutAsync from '../store/features/auth/actions/fetchSignoutAsync'
 import { useDispatch } from '../store/storeHooks'
 
 const Layout: React.FC = () => {

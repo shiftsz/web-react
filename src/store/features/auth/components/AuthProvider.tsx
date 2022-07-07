@@ -1,8 +1,9 @@
 import React from "react";
+import Splash from "../../../../router/Splash";
+import RootTypes from "../../../rootTypes";
 import { useDispatch } from "../../../storeHooks";
-import { fetchAuthAsync } from "../authActions";
+import fetchAuthAsync from "../actions/fetchAuthAsync";
 import { isAuthFetched, useAuthState } from "../authHooks";
-import AuthTypes from "../authTypes";
 
 const AuthProvider: React.FC<{ children: JSX.Element }> = (props) => {
     const state = useAuthState()
@@ -12,11 +13,12 @@ const AuthProvider: React.FC<{ children: JSX.Element }> = (props) => {
         dispatch(fetchAuthAsync())
     }, [dispatch])
 
-    if (state.status === AuthTypes.Status.IDLE) return props.children
+    if (isAuthFetched(state))
+        return props.children
 
-    if (!isAuthFetched(state)) return <div>Loading</div>
+    if (state.status === RootTypes.Status.IDLE) return <Splash />
 
-    return props.children
+    return <div>Loading</div>
 }
 
 export default AuthProvider
